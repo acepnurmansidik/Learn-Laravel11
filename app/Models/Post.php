@@ -10,10 +10,14 @@ class Post extends Model
 {
     use HasFactory;
     // untuk yang boleh diisi
-    protected $fillable=['title', 'author', 'slug', 'body', "categories"];
+    protected $fillable=['title', 'author', 'slug', 'body', "category"];
 
     public function author():BelongsTo{
         // ini di relasika secara belingsTo ke tabel user
         return $this->belongsTo(User::class);
+    }
+    public function category():BelongsTo{
+        // ini di relasika secara belingsTo ke tabel user
+        return $this->belongsTo(Category::class);
     }
 }
