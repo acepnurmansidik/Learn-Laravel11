@@ -15,7 +15,12 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts',["title"=>"Blog", "posts" => Post::all()]);
+    // jika ingin custom query gunakan get()
+    // menambhakan "with" eloquent akan menghemat waktu eksekusi query ke DB(N+1) /lazy loading
+    // eager loading, load data relasi dari child ke parent
+    // $posts=Post::with(['author','category'])->get();
+
+    return view('posts',["title"=>"Blog", "posts" => Post::get()]);
 });
 
 Route::get("/posts/{post:slug}",function(Post $post){
@@ -23,10 +28,14 @@ Route::get("/posts/{post:slug}",function(Post $post){
 });
 
 Route::get("/authors/{user:username}",function(User $user){
+    // lazy eager loading, load data relasi dari parent ke child
+    // $posts=$user->posts->load(['author','category']);
+    
     return view('posts',["title" => count($user->posts)." Posted by ".$user->name, "posts" => $user->posts]);
 });
 
 Route::get("/categories/{category:slug}",function(Category $category){
+    // $posts=$category->posts->load(['author','category']);
     return view('posts',["title" => " Article in: ".$category->name, "posts" => $category->posts]);
 });
 

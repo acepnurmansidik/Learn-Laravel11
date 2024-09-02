@@ -11,6 +11,8 @@ class Post extends Model
     use HasFactory;
     // untuk yang boleh diisi
     protected $fillable=['title', 'author', 'slug', 'body', "category"];
+    // eager laoding
+    protected $with=["author","category"];
 
     public function author():BelongsTo{
         // ini di relasika secara belingsTo ke tabel user
