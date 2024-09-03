@@ -20,7 +20,7 @@ Route::get('/posts', function () {
     // eager loading, load data relasi dari child ke parent
     // $posts=Post::with(['author','category'])->get();
 
-    return view('posts',["title"=>"Blog", "posts" => Post::get()]);
+    return view('posts',["title"=>"Blog", "posts" => Post::filter(request(['search', 'category', 'author']))->latest()->get()]);
 });
 
 Route::get("/posts/{post:slug}",function(Post $post){
